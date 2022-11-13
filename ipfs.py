@@ -1,9 +1,9 @@
 import nft_storage
 from nft_storage.api import nft_storage_api
 from pprint import pprint
-from cryptography.fernet import Fernet
 import requests
 import os
+import hashlib
 
 configuration = None
 
@@ -20,8 +20,11 @@ else:
 
 class Encryptor():
 
-    def key_create(self):
-        key = Fernet.generate_key()
+    def key_create(self,user_name, password):
+        m = hashlib.sha256()
+        m.update(user_name.encode('utf-8'))
+        m.update(password.encode('utf-8'))
+        key = m.digest()
         return key
 
     def key_write(self, key, key_name):
@@ -34,18 +37,18 @@ class Encryptor():
         return key
 
     def file_encrypt(self, key, original_file, encrypted_file):
-        f = Fernet(key)
         with open(original_file, 'rb') as file:
             original = file.read()
-        encrypted = f.encrypt(original)
+        tempkey = key * (len(original) // len(key) + 1)
+        encrypted = bytes(a ^ b for a, b in zip(original, tempkey))
         with open(encrypted_file, 'wb') as file:
             file.write(encrypted)
 
     def file_decrypt(self, key, encrypted_file, decrypted_file):
-        f = Fernet(key)
         with open(encrypted_file, 'rb') as file:
             encrypted = file.read()
-        decrypted = f.decrypt(encrypted)
+        tempkey = key * (len(encrypted) // len(key) + 1)
+        decrypted = bytes(a ^ b for a, b in zip(encrypted, tempkey))
         with open(decrypted_file, 'wb') as file:
             file.write(decrypted)
 
@@ -138,7 +141,9 @@ if __name__ == '__main__':
         key = encryptor.key_load("key.key")
         file.close()
     except FileNotFoundError:
-        key = encryptor.key_create()
+        username = input("Enter username: ")
+        password = input("Enter password: ")
+        key = encryptor.key_create(username, password)
         encryptor.key_write(key, "key.key")
     print("Welcome to IPFS image storage")
 
