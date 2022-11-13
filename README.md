@@ -1,8 +1,8 @@
 Dependencies
 1. python3
-2. nftstorage client - pip install git+https://github.com/nftstorage/python-client.git
-3. requests library - pip install requests
-4. cyrptography library - pip install cryptography
+2. nftstorage client - `pip install git+https://github.com/nftstorage/python-client.git`
+3. requests library - `pip install requests`
+4. cyrptography library - `pip install cryptography`
 
 Steps to run the code
 1. Create an account on nft.storage
