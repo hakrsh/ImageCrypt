@@ -7,7 +7,7 @@ Dependencies
 Steps to run the code
 1. Create an account on nft.storage
 2. Create a new API key and put it in access_token variable
-3. Run the code using the command python3 ris.py
+3. Run the code using the command `python3 ipfs.py`
 4. To upload press 1 and insert image path
 5. To download press 2 and insert image name
 
