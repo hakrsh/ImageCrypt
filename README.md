@@ -13,3 +13,8 @@ Steps to run the code
 
 Note
 index file is created to store the image name and cid and it's required for searching the image name and downloading the image
+
+Credits
+https://ruky.me/2022/05/17/web-3-how-to-upload-a-file-to-the-ipfs-network/
+https://medium.com/@kccmeky/how-to-upload-your-kcc-nft-image-using-python-c332ff761029
+https://towardsdatascience.com/encrypt-and-decrypt-files-using-python-python-programming-pyshark-a67774bbf9f4
