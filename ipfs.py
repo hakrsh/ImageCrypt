@@ -141,19 +141,39 @@ if __name__ == '__main__':
         key = encryptor.key_create()
         encryptor.key_write(key, "key.key")
     print("Welcome to IPFS image storage")
-
+    print("-----------------------------")
     while(1):
         print("1. Upload")
-        print("2. Download")
-        print("3. Exit")
+        print("2. List all images")
+        print("3. Download")
+        print("4. Exit")
         choice = int(input("Enter your choice: "))
         if choice == 1:
             file = input("Enter the path of the file: ")
             print(upload(file))
         elif choice == 2:
+            try:
+                file = open("index", "rb")
+                file.close()
+                try:
+                    encryptor.file_decrypt(key, "index", "index_decrypted")
+                    print("\nImages in the index:")
+                    cnt = 0
+                    with open("index_decrypted", "r") as f:
+                        for line in f:
+                            cnt += 1
+                            print(f"{cnt}. {line.split(':')[0]}")
+                    print("\nTotal images: ", cnt)
+                    os.remove("index_decrypted")
+                except:
+                    print("Wrong key")
+            except FileNotFoundError:
+                print("Index not found")
+        elif choice == 3:
             image = input("Enter the name of the image: ")
             print(download(image))
-        elif choice == 3:
+        elif choice == 4:
             break
         else:
             print("Wrong choice")
+        print()
